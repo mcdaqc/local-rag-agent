@@ -1,77 +1,114 @@
-# Simple RAG Chat
+# RAG_Ollama_Deepseek_Streamlit
+ Local RAG Chatbot leveraging deepseek R1
+ 
+ To run the application use the following command: streamlit run UI.py
 
-A simple chat application that uses RAG (Retrieval Augmented Generation) to answer questions about your documents. Built with Streamlit, Ollama, and Qdrant.
+# Local RAG Chatbot with Ollama, Streamlit, and DeepSeek-R1
 
-## Quick Start
+Welcome to the Local RAG Chatbot repository! This project demonstrates how to build a fully local Retrieval Augmented Generation (RAG) chatbot using Ollama, Streamlit, and the DeepSeek-R1 model. This setup allows you to create a powerful, privacy-focused conversational AI that operates entirely on your local machine.
 
-1. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+## Table of Contents
 
-2. Start Qdrant:
-```bash
-docker-compose up -d
-```
+1.  [Introduction](#introduction)
+2.  [Features](#features)
+3.  [Prerequisites](#prerequisites)
+4.  [Installation](#installation)
+5.  [Usage](#usage)
+6.  [Customization](#customization)
 
-3. Install Ollama models:
-```bash
-ollama pull llama2
-ollama pull nomic-embed-text
-```
+## 1. Introduction
 
-4. Run the app:
-```bash
-streamlit run app.py
-```
+This repository provides the code and instructions to implement a local RAG chatbot. The chatbot leverages:
 
-## Features
+* **Ollama:** Ollama is a lightweight, extensible framework for building and running large language models such as llama, mistral, deepseek, etc. on the local machine. IN this project we run the DeepSeek-R1 large language model locally. 
+* **Streamlit:** Our project enables communication through a chatbot interface, leveraging Streamlit, a highly intuitive and user-friendly tool for building interactive web applications.
+* **DeepSeek-R1:** A powerful open-source language model for generating human-like responses.
+* **Retrieval Augmented Generation (RAG):** To enhance the chatbot's responses with relevant information from local documents.
 
-- Upload PDF or TXT documents
-- Chat with AI about document content
-- Uses llama2 for text generation
-- Uses nomic-embed-text for embeddings
-- Stores vectors in Qdrant
+The core idea is to provide a practical guide for users who wish to build a secure and customizable chatbot without relying on external APIs or cloud services.
 
-## Configuration
+## 2. Features
 
-Create a `.env` file with:
-```env
-LLM_MODEL=llama2
-EMBEDDING_MODEL=nomic-embed-text
-COLLECTION_NAME=document-index
-QDRANT_URL=http://localhost:6333
-```
+* **Local Execution:** Runs entirely on your local machine, ensuring data privacy and security.
+* **Document Ingestion:** Allows users to upload and index local documents for RAG.
+* **Interactive Chat Interface:** Provides a user-friendly Streamlit interface for interacting with the chatbot.
+* **DeepSeek-R1 Integration:** Utilizes the DeepSeek-R1 model for high-quality responses.
+* **Customizable Prompting:** Enables users to modify prompts for tailored chatbot behavior.
+* **Simple Setup:** Designed for easy installation and configuration.
 
-## How It Works
+## 3. Prerequisites
 
-1. Upload a document
-2. Document is split into chunks
-3. Chunks are converted to embeddings
-4. When you ask a question:
-   - Similar chunks are retrieved
-   - LLM generates response using retrieved context
+Before getting started, ensure you have the following installed:
 
-## Project Structure
+* **Python 3.7+:** Python is required for running the application.
+* **Ollama:** Download and install Ollama from ([https://ollama.com/]).
+* **DeepSeek-R1 Model:** Pull the DeepSeek-R1 model in Ollama by running `ollama pull deepseek-r1`.
+* **Pip:** Python package installer.
 
-```
-simple-rag-agent/
-├── app.py              # Main Streamlit application
-├── config.py           # Configuration settings
-├── docker-compose.yml  # Docker configuration for Qdrant
-├── requirements.txt    # Python dependencies
-└── .env               # Environment variables (create this)
-```
+## 4. Installation
 
-## Contributing
+1.  **Clone the Repository:**
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+    ```bash
+    git clone https://github.com/pruthvirajcyn/RAG_Ollama_Deepseek_Streamlit.git
+    cd RAG_Ollama_Deepseek_Streamlit
+    ```
 
-## License
+2.  **Create a Virtual Environment (Recommended):**
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On macOS/Linux
+    venv\Scripts\activate  # On Windows
+    ```
 
+3.  **Install Dependencies:**
+
+    ```bash
+    pip install -r .\src\requirements.txt
+    ```
+
+## 5. Usage
+
+1.  **Run Ollama:**
+    In another tab of command prompt/ terminal run the below
+    ```bash
+    ollama serve
+    ```
+
+3.  **Upload Documents:**
+    
+    To upload your documents, update the path of the pdf file in the code and run:
+    ```bash
+    python .\src\load_docs.py
+    ```
+    To remove all the data in your vector database:
+    ```bash
+    python .\src\load_docs.py "--reset"
+    ```
+
+4.  **Run the Streamlit Application:**
+
+    ```bash
+    streamlit run app.py
+    ```
+    
+6.  **Chat with the Bot:**
+
+    Enter your queries in the chat input and receive responses augmented with information from your documents.
+
+## 6. Customization
+
+* **Modify Prompts:** Edit the prompt templates in `app.py` to customize the chatbot's behavior.
+* **Change Models:** You can replace DeepSeek-R1 with other models supported by Ollama. Remember to update the Ollama pull command and the model name in the code.
+* **Adjust Retrieval Parameters:** Fine-tune the retrieval parameters in the code to optimize document retrieval.
+* **Extend Functionality:** Add more features to the Streamlit interface or integrate with other tools.
+
+## 7. Troubleshooting
+
+* **Ollama Issues:** If you encounter issues with Ollama, refer to the official Ollama documentation.
+* **Dependency Issues:** Ensure all dependencies are installed correctly. If you encounter errors, try reinstalling the virtual environment.
+* **Model Loading Issues:** Verify that the DeepSeek-R1 model is pulled correctly in Ollama.
+
+
+Este proyecto está licenciado bajo la Licencia MIT - ver el archivo LICENSE para más detalles. 
