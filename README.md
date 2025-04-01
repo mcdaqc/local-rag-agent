@@ -1,172 +1,77 @@
-# 🧠 Local RAG Agent
+# Simple RAG Chat
 
-A sophisticated local Retrieval-Augmented Generation (RAG) system powered by Llama 3.2 through Ollama, with Qdrant as the vector database. This project provides a fully local implementation of a RAG system with enhanced features and better organization.
+A simple chat application that uses RAG (Retrieval Augmented Generation) to answer questions about your documents. Built with Streamlit, Ollama, and Qdrant.
 
-## 🌟 Features
+## Quick Start
 
-- **Fully Local Implementation**: No external API dependencies required
-- **Modern Architecture**: 
-  - FastAPI-based REST API
-  - Modular and maintainable code structure
-  - Configuration management with environment variables
-  - Comprehensive logging system
-- **Advanced Components**:
-  - Llama 3.2 for text generation
-  - Qdrant for vector storage
-  - Interactive playground interface
-  - PDF document processing
-- **Developer Experience**:
-  - Hot reloading for development
-  - Structured logging
-  - Environment-based configuration
-  - Clear project organization
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Python 3.8+
-- Docker (for Qdrant)
-- Ollama installed locally
-
-### Installation
-
-1. Clone the repository:
+1. Install dependencies:
 ```bash
-git clone https://github.com/yourusername/local-rag-agent.git
-cd local-rag-agent
-```
-
-2. Create and configure a virtual environment:
-
-For Windows:
-```bash
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment
-.\venv\Scripts\activate
-
-# Upgrade pip
-python -m pip install --upgrade pip
-```
-
-For Linux/Mac:
-```bash
-# Create virtual environment
-python3 -m venv venv
-
-# Activate virtual environment
-source venv/bin/activate
-
-# Upgrade pip
-python -m pip install --upgrade pip
-```
-
-3. Install dependencies:
-```bash
-# Install all requirements
 pip install -r requirements.txt
-
-# Verify installation
-pip list
 ```
 
-4. Set up environment variables:
+2. Start Qdrant:
 ```bash
-# Copy example environment file
-cp .env.example .env
-
-# Edit .env with your configuration
-# You can use any text editor to modify the settings
+docker-compose up -d
 ```
 
-5. Start Qdrant:
+3. Install Ollama models:
 ```bash
-# Pull Qdrant image
-docker pull qdrant/qdrant
-
-# Run Qdrant container
-docker run -p 6333:6333 qdrant/qdrant
+ollama pull llama2
+ollama pull nomic-embed-text
 ```
 
-6. Install Ollama models:
+4. Run the app:
 ```bash
-# Pull required models
-ollama pull llama3.2
-ollama pull openhermes
+streamlit run app.py
 ```
 
-7. Run the application:
-```bash
-# Make sure your virtual environment is activated
-# You should see (venv) at the start of your command prompt
+## Features
 
-# Run the application
-python main.py
+- Upload PDF or TXT documents
+- Chat with AI about document content
+- Uses llama2 for text generation
+- Uses nomic-embed-text for embeddings
+- Stores vectors in Qdrant
+
+## Configuration
+
+Create a `.env` file with:
+```env
+LLM_MODEL=llama2
+EMBEDDING_MODEL=nomic-embed-text
+COLLECTION_NAME=document-index
+QDRANT_URL=http://localhost:6333
 ```
 
-The application will be available at:
-- API: http://localhost:8000
-- Playground: http://localhost:8000/playground
-- API Documentation: http://localhost:8000/docs
+## How It Works
 
-### Managing the Virtual Environment
+1. Upload a document
+2. Document is split into chunks
+3. Chunks are converted to embeddings
+4. When you ask a question:
+   - Similar chunks are retrieved
+   - LLM generates response using retrieved context
 
-To deactivate the virtual environment when you're done:
-```bash
-deactivate
-```
-
-To reactivate the virtual environment later:
-```bash
-# Windows
-.\venv\Scripts\activate
-
-# Linux/Mac
-source venv/bin/activate
-```
-
-## 📁 Project Structure
+## Project Structure
 
 ```
-local-rag-agent/
-├── main.py              # Main application entry point
-├── config.py           # Configuration management
-├── requirements.txt    # Project dependencies
-├── .env               # Environment variables
-├── logs/              # Application logs
-└── utils/
-    ├── logger.py      # Logging configuration
-    ├── vector_store.py # Vector store setup
-    └── knowledge_base.py # Knowledge base management
+simple-rag-agent/
+├── app.py              # Main Streamlit application
+├── config.py           # Configuration settings
+├── docker-compose.yml  # Docker configuration for Qdrant
+├── requirements.txt    # Python dependencies
+└── .env               # Environment variables (create this)
 ```
 
-## 🔧 Configuration
+## Contributing
 
-The application can be configured through environment variables or the `.env` file:
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
-- `APP_NAME`: Application name
-- `DEBUG`: Debug mode (True/False)
-- `HOST`: Server host
-- `PORT`: Server port
-- `MODEL_NAME`: Ollama model name
-- `EMBEDDER_MODEL`: Embedding model name
-- `COLLECTION_NAME`: Qdrant collection name
-- `QDRANT_URL`: Qdrant server URL
-- `PDF_URLS`: List of PDF URLs to process
+## License
 
-## 📝 Logging
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-Logs are stored in the `logs` directory with rotation enabled:
-- Maximum file size: 10MB
-- Backup count: 5 files
-- Format: timestamp - name - level - message
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details. 
